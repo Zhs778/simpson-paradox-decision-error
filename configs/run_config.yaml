@@ -1,0 +1,43 @@
+# ============================================================
+# Global run configuration for all three simulation experiments.
+# Every path is RELATIVE to the repository root; override any
+# value on the command line. No absolute paths are hard-coded.
+# ============================================================
+
+decision:
+  delta: 0.01            # primary decision threshold (Exp1 & Exp3)
+  bands: 3               # three-band rule: treat / avoid / uncertain
+  closed_band: true      # |RD| <= delta is always "uncertain"
+
+simulation:
+  repetitions: 2000          # Monte Carlo repetitions per scenario/cell
+  coverage_repetitions: 600  # subset used for bootstrap coverage
+  bootstrap_repetitions: 300 # percentile bootstrap resamples B
+
+estimator:
+  # Pre-registered primary rule for empty outcome cells (Experiment 2).
+  # One of: all_haldane | degenerate_only | empty_arm_only | raw_skip
+  empty_cell_rule: empty_arm_only
+
+# Reproducibility: fixed seeds. Repetition r uses SeedSequence([base, r]);
+# bootstrap draws use SeedSequence([base, r, 1]) (independent substreams).
+seeds:
+  exp1_seed_base: 2026111700   # per-scenario seed_s derived as base + scenario index
+  exp2_grid_base: 20261117     # seed = base + 100000*cell + replicate
+  exp2_struct_base: 20261118   # seed = base + 2000000*arm + 2000*cell + replicate
+  exp3_seed_base: 2026112100   # per-scenario seed = base + scenario index
+
+# Frozen configuration hash reported in the manuscript (FROZEN.md).
+frozen_hash: c7ee2cd29ea87cc5
+
+paths:
+  config_dir: ./configs
+  output_dir: ./outputs
+  replicate_dir: ./outputs/replicates   # generated at runtime; gitignored
+
+# Reference values used by the paper's design nomogram (Section 5.3/4.5).
+nomogram:
+  theta_example: 0.03
+  sigma_example: 0.02
+  bias_example: 0.005
+  target_error: 0.05

@@ -1,0 +1,12 @@
+# Core (pinned to the versions recorded in the manuscript's ENVIRONMENT.lock)
+numpy==2.3.5
+pandas==3.0.0
+matplotlib==3.10.8
+
+# Configuration parsing
+PyYAML>=6.0
+
+# Optional: only used by utils/seed.py to fix torch's RNG when torch is installed.
+# The study itself is pure NumPy/SciPy-style simulation and does NOT require torch,
+# GPU, or any deep-learning framework. Install torch only if you want its seed fixed.
+# torch>=2.0

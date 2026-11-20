@@ -1,0 +1,62 @@
+# ============================================================
+# Experiment 3 - two binary covariates (manuscript Sec. 3.7).
+# 4 levels x 2 stratum sizes = 8 scenarios, 2000 repetitions each.
+#
+# Generating model (balanced Z1, Z2 in {@0,1@}):
+#   e(z1,z2) = P(A=1|z1,z2) = 0.20 + 0.45*z1 + d2*z2
+#   r(z1,z2) = P(Y=1|A=0,z1,z2) = 0.10 + 0.15*z1 + b2*z2
+#   eff(z1,z2) = risk difference = base_eff - 0.25*z1 + dY2*z2
+#   P(Y=1|A=1,z1,z2) = r(z1,z2) + eff(z1,z2)
+#
+# Data order: Z1 -> Z2 -> A|Z -> Y|A,Z (Bernoulli throughout).
+# Strategies: B0, A1, A2, A3, plus A1Z1 (standardise over Z1 marginal only).
+# Seeds: SeedSequence([exp3_seed_base + i, repetition]).
+# ============================================================
+delta: 0.01
+repetitions: 2000
+strategies: [B0, A1, A2, A3, A1Z1]
+
+levels:
+  L0:   # strength 0: Z2 outcome-associated but NOT treatment-associated (not a confounder)
+    d2: 0.00
+    b2: 0.05
+    base_eff: 0.20
+    dY2: 0.00
+    theta_reference: 0.075     # E[eff] under balanced cells
+  L1:
+    d2: 0.15
+    b2: 0.15
+    base_eff: 0.20
+    dY2: 0.10
+    theta_reference: 0.125
+  L2:   # strength 2: strong confounding; largest bias separation
+    d2: 0.30
+    b2: 0.25
+    base_eff: 0.20
+    dY2: 0.20
+    theta_reference: 0.175
+  L3:   # near-threshold: theta = 0.025, only 0.015 above delta
+    d2: 0.30
+    b2: 0.25
+    base_eff: 0.05
+    dY2: 0.05
+    z1_eff: -0.10              # eff = base_eff - 0.10*z1 + 0.05*z2
+    theta_reference: 0.025
+
+stratum_sizes:
+  small: 50    # n_cell per (Z1,Z2) cell -> N_total = 200
+  large: 200   # n_cell per (Z1,Z2) cell -> N_total = 800
+
+# Scenario order i = 0..7 feeds the seed base.
+scenario_order:
+  - {id: E3_S1, level: L0, size: large}
+  - {id: E3_S2, level: L0, size: small}
+  - {id: E3_S3, level: L1, size: large}
+  - {id: E3_S4, level: L1, size: small}
+  - {id: E3_S5, level: L2, size: large}
+  - {id: E3_S6, level: L2, size: small}
+  - {id: E3_S7, level: L3, size: large}
+  - {id: E3_S8, level: L3, size: small}
+
+# theta and theta_t are recomputed analytically by the code from the above
+# parameters; theta_reference values are cross-checks only.

@@ -1,0 +1,59 @@
+# ============================================================
+# Experiment 1 - full scenario grid (Table A1 of the manuscript).
+# Frozen configuration hash: c7ee2cd29ea87cc5
+#
+# Field semantics (manuscript Sec. 2.1):
+#   c_rate : P(C = 1), the weight on stratum c = 1  (pi)
+#   e0     : P(A = 1 | C = 0);  e1 : P(A = 1 | C = 1)
+#   p00    : P(Y = 1 | A = 0, C = 0);  p10 : P(Y = 1 | A = 1, C = 0)
+#   p01    : P(Y = 1 | A = 0, C = 1);  p11 : P(Y = 1 | A = 1, C = 1)
+#   truth  : theta  = sum_c P(C=c) * (p_1c - p_0c)
+#   truth_treated : theta_t = sum_c P(C=c | A=1) * (p_1c - p_0c)
+# Family: REV (crude RD opposite sign to theta), CON (same sign, crude != theta),
+#         NULL (e0 == e1). assigned by design, not by realised estimate.
+# ============================================================
+frozen_hash: c7ee2cd29ea87cc5
+delta: 0.01
+
+# The 24 scenarios are split into 8 blocks of 3 for parallel execution.
+blocks:
+  - [SC01, SC02, SC03]
+  - [SC04, SC05, SC06]
+  - [SC07, SC08, SC09]
+  - [SC10, SC11, SC12]
+  - [SC13, SC14, SC15]
+  - [SC16, SC17, SC18]
+  - [SC19, SC20, SC21]
+  - [SC22, SC23, SC24]
+
+scenarios:
+  - {id: SC01, family: CON,  n: 800,  c_rate: 0.4, e0: 0.35, e1: 0.55, p00: 0.08, p10: 0.12, p01: 0.18, p11: 0.28, truth:  0.064, truth_treated:  0.071}
+  - {id: SC02, family: CON,  n: 1000, c_rate: 0.5, e0: 0.25, e1: 0.75, p00: 0.05, p10: 0.10, p01: 0.30, p11: 0.50, truth:  0.125, truth_treated:  0.163}
+  - {id: SC03, family: REV,  n: 1000, c_rate: 0.5, e0: 0.35, e1: 0.65, p00: 0.05, p10: 0.10, p01: 0.50, p11: 0.30, truth: -0.075, truth_treated: -0.113}
+  - {id: SC04, family: CON,  n: 1200, c_rate: 0.5, e0: 0.10, e1: 0.90, p00: 0.05, p10: 0.10, p01: 0.50, p11: 0.80, truth:  0.175, truth_treated:  0.275}
+  - {id: SC05, family: "NULL", n: 1200, c_rate: 0.5, e0: 0.50, e1: 0.50, p00: 0.10, p10: 0.20, p01: 0.20, p11: 0.30, truth:  0.100, truth_treated:  0.100}
+  - {id: SC06, family: CON,  n: 900,  c_rate: 0.3, e0: 0.20, e1: 0.80, p00: 0.02, p10: 0.04, p01: 0.15, p11: 0.30, truth:  0.059, truth_treated:  0.102}
+  - {id: SC07, family: REV,  n: 1000, c_rate: 0.6, e0: 0.25, e1: 0.75, p00: 0.10, p10: 0.18, p01: 0.35, p11: 0.20, truth: -0.058, truth_treated: -0.108}
+  - {id: SC08, family: REV,  n: 1200, c_rate: 0.5, e0: 0.10, e1: 0.90, p00: 0.05, p10: 0.15, p01: 0.70, p11: 0.50, truth: -0.050, truth_treated: -0.170}
+  - {id: SC09, family: REV,  n: 1500, c_rate: 0.5, e0: 0.95, e1: 0.05, p00: 0.05, p10: 0.15, p01: 0.60, p11: 0.80, truth:  0.150, truth_treated:  0.105}
+  - {id: SC10, family: "NULL", n: 1500, c_rate: 0.5, e0: 0.45, e1: 0.45, p00: 0.10, p10: 0.15, p01: 0.20, p11: 0.25, truth:  0.050, truth_treated:  0.050}
+  - {id: SC11, family: REV,  n: 3000, c_rate: 0.5, e0: 0.15, e1: 0.90, p00: 0.05, p10: 0.15, p01: 0.90, p11: 0.60, truth: -0.100, truth_treated: -0.243}
+  - {id: SC12, family: REV,  n: 500,  c_rate: 0.5, e0: 0.15, e1: 0.90, p00: 0.05, p10: 0.15, p01: 0.90, p11: 0.60, truth: -0.100, truth_treated: -0.243}
+  - {id: SC13, family: REV,  n: 1000, c_rate: 0.5, e0: 0.15, e1: 0.90, p00: 0.05, p10: 0.15, p01: 0.90, p11: 0.60, truth: -0.100, truth_treated: -0.243}
+  - {id: SC14, family: REV,  n: 2000, c_rate: 0.5, e0: 0.01, e1: 0.99, p00: 0.05, p10: 0.15, p01: 0.90, p11: 0.60, truth: -0.100, truth_treated: -0.296}
+  - {id: SC15, family: CON,  n: 1500, c_rate: 0.5, e0: 0.90, e1: 0.15, p00: 0.05, p10: 0.15, p01: 0.90, p11: 0.60, truth: -0.100, truth_treated:  0.043}
+  - {id: SC16, family: REV,  n: 400,  c_rate: 0.5, e0: 0.15, e1: 0.90, p00: 0.05, p10: 0.15, p01: 0.90, p11: 0.60, truth: -0.100, truth_treated: -0.243}
+  - {id: SC17, family: REV,  n: 800,  c_rate: 0.5, e0: 0.15, e1: 0.90, p00: 0.05, p10: 0.15, p01: 0.90, p11: 0.60, truth: -0.100, truth_treated: -0.243}
+  - {id: SC18, family: "NULL", n: 1000, c_rate: 0.5, e0: 0.50, e1: 0.50, p00: 0.05, p10: 0.07, p01: 0.40, p11: 0.20, truth: -0.090, truth_treated: -0.090}
+  - {id: SC19, family: "NULL", n: 1000, c_rate: 0.2, e0: 0.50, e1: 0.50, p00: 0.05, p10: 0.07, p01: 0.40, p11: 0.20, truth: -0.024, truth_treated: -0.024}
+  - {id: SC20, family: "NULL", n: 1000, c_rate: 0.8, e0: 0.50, e1: 0.50, p00: 0.05, p10: 0.07, p01: 0.40, p11: 0.20, truth: -0.156, truth_treated: -0.156}
+  - {id: SC21, family: REV,  n: 2000, c_rate: 0.5, e0: 0.05, e1: 0.95, p00: 0.05, p10: 0.15, p01: 0.75, p11: 0.40, truth: -0.125, truth_treated: -0.328}
+  - {id: SC22, family: REV,  n: 2000, c_rate: 0.5, e0: 0.95, e1: 0.05, p00: 0.05, p10: 0.15, p01: 0.60, p11: 0.80, truth:  0.150, truth_treated:  0.105}
+  - {id: SC23, family: REV,  n: 1200, c_rate: 0.5, e0: 0.10, e1: 0.90, p00: 0.05, p10: 0.15, p01: 0.85, p11: 0.55, truth: -0.100, truth_treated: -0.260}
+  - {id: SC24, family: "NULL", n: 400,  c_rate: 0.5, e0: 0.50, e1: 0.50, p00: 0.01, p10: 0.04, p01: 0.01, p11: 0.04, truth:  0.030, truth_treated:  0.030}
+
+# SC18-SC20 closed-form check (manuscript Sec. 3.2): truth = 0.02 - 0.22*pi,
+# where pi = c_rate = P(C = 1). Verified to < 1e-12 in analysis.
+closed_form_check:
+  applies_to: [SC18, SC19, SC20]
+  formula: "0.02 - 0.22 * c_rate"
